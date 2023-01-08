@@ -1,0 +1,10 @@
+package com.cursilhos.cadastro.enumeration;
+
+public enum Igreja {
+
+    PAROQUIA_ANGLICANA_ESPIRITO_SANTO,
+    IGREJA_ANGLICANA_DA_CIDADE_DO_CABO,
+    IGREJA_ANGLICANA_ZONA_NORTE,
+    IGREJA_ANGLICANA_ESPERANCA;
+
+}
