@@ -33,14 +33,14 @@ public class CursilhistaDto {
     private String conjugePhoneNumber;
     private String emergencyName;
     private String emergencyPhoneNumber;
-    private String foodRestriction;
+    private boolean foodRestriction;
+    private String foodRestrictionDescription;
     private FormaPagamento formaPagamento;
     @Enumerated
     private Transport transport;
     @Enumerated
     private Igreja igreja;
-    @Builder.Default
-    private boolean confirmed = false;
+    private boolean confirmed;
 
 
 }

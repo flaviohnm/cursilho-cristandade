@@ -24,7 +24,8 @@ public class Cursilhista {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(unique = true)
+
+    @Column(nullable = false, unique = true)
     private String cpf;
     private String fullName;
     private String displayName;
@@ -41,7 +42,9 @@ public class Cursilhista {
     private String conjugePhoneNumber;
     private String emergencyName;
     private String emergencyPhoneNumber;
-    private String foodRestriction;
+    @Builder.Default
+    private boolean foodRestriction = false;
+    private String foodRestrictionDescription;
     @Enumerated
     private FormaPagamento formaPagamento;
     @Enumerated
@@ -51,4 +54,8 @@ public class Cursilhista {
     @Builder.Default
     private boolean confirmed = false;
 
+      @Override
+    public String toString(){
+        return "{id="+id+", cpf="+cpf+", fullName=" +fullName+", displayName=" +displayName+", phoneNumber="+phoneNumber+", mobileNumber="+mobileNumber+", emailAddress="+emailAddress+", birthDate="+birthDate+", insertDate="+insertDate+", confirmationDate="+confirmationDate+", conjugeName="+conjugeName+", conjugePhoneNumber="+conjugePhoneNumber+", emergencyName="+emergencyName+", emergencyPhoneNumber="+emergencyPhoneNumber+", foodRestriction="+foodRestriction+", foodRestrictionDescription="+foodRestrictionDescription+", formaPagamento="+formaPagamento+", transport="+transport+", igreja=" +igreja+", confirmed="+confirmed+"}";
+    }
 }

@@ -1,6 +1,8 @@
 package com.cursilhos.cadastro.service;
 
+import com.cursilhos.cadastro.exception.CursilhistaNotFoundException;
 import com.cursilhos.cadastro.model.Cursilhista;
+import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.resource.dto.CursilhistaDto;
 
@@ -9,14 +11,13 @@ import java.util.List;
 public interface CursilhistaService {
 
     ResponseModel cadastrarCursilhista (CursilhistaDto cursilhistaDto);
-    Cursilhista verCursilhista (Long id);
+    Cursilhista findById (Long id);
 
     List<Cursilhista> listarCursilhistas();
 
-    boolean consultarCPF (String cpf);
+    boolean verifyCpfExists (String cpf);
 
-    Cursilhista confirmarCursilhista(Long idCursilhista, int formaPagamento);
-
+    ResponseModel confirmarCursilhista(Long idCursilhista, CursilhistaConfirmedQueryString formaPagamento) throws CursilhistaNotFoundException;
 
 }
 

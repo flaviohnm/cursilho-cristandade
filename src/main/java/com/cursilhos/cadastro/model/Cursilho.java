@@ -21,7 +21,7 @@ public class Cursilho {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String cursilhoNumber;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Cursilhista> cursilhistas;
     @Enumerated
     private Type cursilhoType;

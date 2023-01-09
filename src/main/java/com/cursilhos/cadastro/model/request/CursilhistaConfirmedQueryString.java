@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CursilhistaConfirmedQueryParameters {
-    Long cursilhistaId;
-    int formaPagamento;
-
+public class CursilhistaConfirmedQueryString {
+    String formaPagamento;
 }

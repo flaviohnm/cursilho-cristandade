@@ -1,11 +1,15 @@
 package com.cursilhos.cadastro.resource;
 
 
+import com.cursilhos.cadastro.exception.CursilhistaNotFoundException;
 import com.cursilhos.cadastro.model.Cursilhista;
+import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.resource.dto.CursilhistaDto;
 import com.cursilhos.cadastro.service.CursilhistaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +26,8 @@ public class CursilhistaResource {
     }
 
     @GetMapping("/{id}")
-    public Cursilhista verCursilhista(@PathVariable("id") Long id) {
-        return cursilhistaService.verCursilhista(id);
+    public ResponseEntity<Cursilhista> findById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(cursilhistaService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping
@@ -32,9 +36,9 @@ public class CursilhistaResource {
     }
 
     @PatchMapping("/confirmarCursilhista/{cursilhistaId}")
-    public Cursilhista confirmarCursilhista(@PathVariable("cursilhistaId") Long cursilhistaId,
-                                            @RequestParam("formaPagamento") int formaPagamento){
-        return cursilhistaService.confirmarCursilhista(cursilhistaId, formaPagamento);
+    public ResponseModel confirmarCursilhista(@PathVariable("cursilhistaId") Long cursilhistaId,
+                                            @RequestParam("formaPagamento") CursilhistaConfirmedQueryString queryString) throws CursilhistaNotFoundException{
+        return cursilhistaService.confirmarCursilhista(cursilhistaId, queryString);
     }
 
 }
