@@ -89,13 +89,12 @@ public class CursilhistaServiceImpl implements CursilhistaService {
 
     @Override
     public ResponseModel confirmarCursilhista(Long idCursilhista, CursilhistaConfirmedQueryString queryString) throws CursilhistaNotFoundException {
+        Cursilhista cursilhista = findById(idCursilhista);
 
         if(notPassRequiredQueryString(queryString)){
             var msg = "A forma de pagamento invalida, por favor informe uma forma de pagamento!!";
             return new ResponseModel(BAD_REQUEST,msg);
         }
-
-        Cursilhista cursilhista = findById(idCursilhista);
 
         if(cursilhista.isConfirmed()){
             var msg = "Cursilhista já foi confirmado anteriormente";
