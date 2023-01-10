@@ -6,8 +6,11 @@ import com.cursilhos.cadastro.enumeration.Transport;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Data
-@Entity
+@Entity(name="cursilhista")
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -24,10 +27,14 @@ public class Cursilhista {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(nullable = false, unique = true)
+    @CPF(message="CPF informado não é valido")
+    @NotNull(message="CPF não pode ser nulo")
     private String cpf;
+    @NotNull(message="fullName não pode ser nulo")
+    @NotBlank(message="fullName não pode ser vazio")
     private String fullName;
+    @NotNull(message="displayName não pode ser nulo")
+    @NotBlank(message="displayName não pode ser vazio")
     private String displayName;
     private String phoneNumber;
     private String mobileNumber;
@@ -40,7 +47,9 @@ public class Cursilhista {
     private LocalDateTime confirmationDate;
     private String conjugeName;
     private String conjugePhoneNumber;
+    @NotNull
     private String emergencyName;
+    @NotNull
     private String emergencyPhoneNumber;
     @Builder.Default
     private boolean foodRestriction = false;

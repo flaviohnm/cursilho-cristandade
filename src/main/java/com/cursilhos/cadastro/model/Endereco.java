@@ -8,7 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Data
-@Entity
+@Entity(name="endereco")
 @Getter
 @Setter
 public class Endereco {

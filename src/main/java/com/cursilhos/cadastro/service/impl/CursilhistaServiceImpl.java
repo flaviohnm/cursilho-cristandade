@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static java.util.Objects.isNull;
 
 @Service
 @RequiredArgsConstructor
@@ -57,47 +56,19 @@ public class CursilhistaServiceImpl implements CursilhistaService {
                 .transport(cursilhistaDto.getTransport())
                 .igreja(cursilhistaDto.getIgreja())
                 .build();
-        cursilhistaRepository.save(cursilhistaParaSerCriado);
-
-        var msg = "Inscrição realizada com sucesso";
-        return new ResponseModel(SUCCESS, msg);
+            cursilhistaRepository.save(cursilhistaParaSerCriado);
+            var msg = "Inscrição realizada com sucesso";
+            return new ResponseModel(SUCCESS, msg);
     }
 
     @Override
-    public Cursilhista findById(Long id) {
-        Optional<Cursilhista> cursilhista = cursilhistaRepository.findById(id);
-        return cursilhista.orElseThrow(() -> new CursilhistaNotFoundException());
-    }
-
-    @Override
-    public List<Cursilhista> listarCursilhistas() {
-        List<Cursilhista> listaCursilhistas = cursilhistaRepository.findAll();
-    return listaCursilhistas;
-}
-
-    @Override
-    public boolean verifyCpfExists(String cpf) {
-        var listaInscritos = cursilhistaRepository.findAll();
-
-        if(listaInscritos.stream()
-                .filter( k -> Objects.equals(k.getCpf(), cpf))
-                .findAny()
-                .isEmpty()){
-            return false;
-        } return true;
-    }
-
-    @Override
-    public ResponseModel confirmarCursilhista(Long idCursilhista, CursilhistaConfirmedQueryString queryString) throws CursilhistaNotFoundException {
+    public ResponseModel confirmarCursilhista(Long idCursilhista, CursilhistaConfirmedQueryString queryString){
         Cursilhista cursilhista = findById(idCursilhista);
 
-        if(notPassRequiredQueryString(queryString)){
-            var msg = "A forma de pagamento invalida, por favor informe uma forma de pagamento!!";
-            return new ResponseModel(BAD_REQUEST,msg);
-        }
-
         if(cursilhista.isConfirmed()){
-            var msg = "Cursilhista já foi confirmado anteriormente";
+            var msg = "Inscrição confirmado anteriormente em: "+ cursilhista.getConfirmationDate()
+                    .format(DateTimeFormatter
+                            .ofPattern("dd/MM/yyyy hh:mm:ss"));
             return new ResponseModel(BAD_REQUEST,msg);
         }
 
@@ -113,21 +84,47 @@ public class CursilhistaServiceImpl implements CursilhistaService {
         cursilhista.setConfirmed(true);
         cursilhista.setConfirmationDate(LocalDateTime.now());
 
-        try {
-            cursilhistaRepository.save(cursilhista);
-            var msg = "Cursilhista confirmado!!";
-            return new ResponseModel(SUCCESS,msg);
-        }catch (Exception e){
-            return new ResponseModel(BAD_REQUEST,e.getMessage());
-        }
+        cursilhistaRepository.save(cursilhista);
+        var msg = "Inscrição confirmada!!";
+        return new ResponseModel(SUCCESS,msg);
     }
+
+    @Override
+    public Cursilhista findById(Long id) {
+        Optional<Cursilhista> cursilhista = cursilhistaRepository.findById(id);
+        return cursilhista.orElseThrow(() -> new CursilhistaNotFoundException());
+    }
+
+    @Override
+    public List<Cursilhista> listarCursilhistas() {
+        List<Cursilhista> listaCursilhistas = cursilhistaRepository.findAll();
+        return listaCursilhistas;
+    }
+
+    @Override
+    public ResponseModel deletarCusrilhistaById(Long id) {
+        findById(id);
+        cursilhistaRepository.deleteById(id);
+        var msg = "Inscrição apagada com sucesso";
+        return new ResponseModel(SUCCESS,msg);
+    }
+
+
+    @Override
+    public boolean verifyCpfExists(String cpf) {
+        var listaInscritos = cursilhistaRepository.findAll();
+
+        if(listaInscritos.stream()
+                .filter( k -> Objects.equals(k.getCpf(), cpf))
+                .findAny()
+                .isEmpty()){
+            return false;
+        } return true;
+    }
+
     public LocalDate converterData(String value){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(value, formatter);
-    }
-
-    private boolean notPassRequiredQueryString(CursilhistaConfirmedQueryString queryString){
-        return isNull(queryString) || isNull(queryString.getFormaPagamento()) || queryString.getFormaPagamento().isEmpty();
     }
 
 }
