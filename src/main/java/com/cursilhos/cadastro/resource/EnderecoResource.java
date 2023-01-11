@@ -1,11 +1,8 @@
 package com.cursilhos.cadastro.resource;
 
 import com.cursilhos.cadastro.model.Endereco;
-import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
-import com.cursilhos.cadastro.model.request.EnderecoQueryString;
 import com.cursilhos.cadastro.model.request.EnderecoRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
-import com.cursilhos.cadastro.resource.dto.EnderecoDto;
 import com.cursilhos.cadastro.service.EnderecoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
