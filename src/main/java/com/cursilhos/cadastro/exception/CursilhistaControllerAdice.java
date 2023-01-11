@@ -76,4 +76,12 @@ public class CursilhistaControllerAdice {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseBody
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<MessageExceptionHandler> requestParametersFails(IllegalArgumentException ex){
+        MessageExceptionHandler error = new MessageExceptionHandler(
+                new Date(), HttpStatus.BAD_REQUEST.value(), "Para cadastrar o endereço é necessário informar o cusilhista");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

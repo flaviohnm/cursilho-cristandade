@@ -32,6 +32,7 @@ public class CursilhistaServiceImpl implements CursilhistaService {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final CursilhistaRepository cursilhistaRepository;
+
     @Override
     public ResponseModel cadastrarCursilhista(CursilhistaRequest cursilhistaRequest) {
 

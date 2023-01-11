@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Objects.isNull;
+
 @Service
 @RequiredArgsConstructor
 public class EnderecoServiceImpl implements EnderecoService {
@@ -27,12 +29,11 @@ public class EnderecoServiceImpl implements EnderecoService {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final EnderecoRepository enderecoRepository;
     private final CursilhistaRepository cursilhistaRepository;
+    private final CursilhistaServiceImpl cursilhistaService;
 
     @Override
     public ResponseModel cadastrarEndereco(EnderecoRequest enderecoRequest) {
-        Optional<Cursilhista> cursilhistaEncontrado = cursilhistaRepository.findById(enderecoRequest.getCursilhistaId());
-        Cursilhista cursilhistaParaAtualizar = cursilhistaEncontrado.get();
-
+        Cursilhista cursilhistaParaAtualizar = cursilhistaService.findById(enderecoRequest.getCursilhistaId());
         Endereco enderecoParaSerCriado = preencherEndereco(enderecoRequest);
         enderecoRepository.save(enderecoParaSerCriado);
 
