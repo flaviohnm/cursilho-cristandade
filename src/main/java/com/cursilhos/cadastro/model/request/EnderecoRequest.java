@@ -1,19 +1,17 @@
-package com.cursilhos.cadastro.model;
+package com.cursilhos.cadastro.model.request;
 
-import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Data
-@Entity(name="endereco")
 @Getter
 @Setter
-public class Endereco {
-    @Id
+@NoArgsConstructor
+@AllArgsConstructor
+public class EnderecoRequest{
+
     private String id;
     private String logradouro;
     private String numero;
@@ -23,4 +21,5 @@ public class Endereco {
     private String cidade;
     private String uf;
     private String cep;
+    private String cursilhistaId;
 }

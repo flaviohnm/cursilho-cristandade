@@ -1,35 +1,30 @@
-package com.cursilhos.cadastro.resource.dto;
+package com.cursilhos.cadastro.model.request;
+
 
 import com.cursilhos.cadastro.enumeration.FormaPagamento;
 import com.cursilhos.cadastro.enumeration.Igreja;
 import com.cursilhos.cadastro.enumeration.Transport;
-import com.cursilhos.cadastro.model.Endereco;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Enumerated;
 
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
-@Data
-public class CursilhistaDto {
+@AllArgsConstructor
+public class CursilhistaRequest {
 
-    private String id;
     private String fullName;
     private String displayName;
     private String cpf;
     private String phoneNumber;
     private String mobileNumber;
     private String emailAddress;
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private String birthDate;
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
     private String insertDate;
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
     private String confirmationDate;
     private String conjugeName;
     private String conjugePhoneNumber;
@@ -37,12 +32,11 @@ public class CursilhistaDto {
     private String emergencyPhoneNumber;
     private boolean foodRestriction;
     private String foodRestrictionDescription;
+    @Enumerated
     private FormaPagamento formaPagamento;
     @Enumerated
     private Transport transport;
     @Enumerated
     private Igreja igreja;
     private boolean confirmed;
-    private Endereco endereco;
-
 }

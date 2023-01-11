@@ -3,10 +3,12 @@ package com.cursilhos.cadastro.service.impl;
 import com.cursilhos.cadastro.enumeration.FormaPagamento;
 import com.cursilhos.cadastro.exception.CursilhistaNotFoundException;
 import com.cursilhos.cadastro.model.Cursilhista;
+import com.cursilhos.cadastro.model.Endereco;
 import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
+import com.cursilhos.cadastro.model.request.CursilhistaRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.repository.CursilhistaRepository;
-import com.cursilhos.cadastro.resource.dto.CursilhistaDto;
+import com.cursilhos.cadastro.repository.EnderecoRepository;
 import com.cursilhos.cadastro.service.CursilhistaService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.lang.Integer.parseInt;
 
@@ -32,37 +35,20 @@ public class CursilhistaServiceImpl implements CursilhistaService {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final CursilhistaRepository cursilhistaRepository;
     @Override
-    public ResponseModel cadastrarCursilhista(CursilhistaDto cursilhistaDto) {
+    public ResponseModel cadastrarCursilhista(CursilhistaRequest cursilhistaRequest) {
 
-        if (verifyCpfExists(cursilhistaDto.getCpf())){
+        if (verifyCpfExists(cursilhistaRequest.getCpf())){
             var msg = "CPF já está cadastrado";
             return new ResponseModel(BAD_REQUEST, msg);
         }
-        Cursilhista cursilhistaParaSerCriado = Cursilhista.builder()
-                .fullName(cursilhistaDto.getFullName())
-                .displayName(cursilhistaDto.getDisplayName())
-                .cpf(cursilhistaDto.getCpf())
-                .phoneNumber(cursilhistaDto.getPhoneNumber())
-                .mobileNumber(cursilhistaDto.getMobileNumber())
-                .emailAddress(cursilhistaDto.getEmailAddress())
-                .birthDate(converterData(cursilhistaDto.getBirthDate()))
-                .insertDate(LocalDateTime.now())
-                .conjugeName(cursilhistaDto.getConjugeName())
-                .conjugePhoneNumber(cursilhistaDto.getConjugePhoneNumber())
-                .emergencyName(cursilhistaDto.getEmergencyName())
-                .emergencyPhoneNumber(cursilhistaDto.getEmergencyPhoneNumber())
-                .foodRestriction(cursilhistaDto.isFoodRestriction())
-                .foodRestrictionDescription(cursilhistaDto.getFoodRestrictionDescription())
-                .transport(cursilhistaDto.getTransport())
-                .igreja(cursilhistaDto.getIgreja())
-                .build();
-            cursilhistaRepository.save(cursilhistaParaSerCriado);
-            var msg = "Inscrição realizada com sucesso";
-            return new ResponseModel(SUCCESS, msg);
+        Cursilhista cursilhistaParaSerCriado = preencherCursilhista(cursilhistaRequest);
+        cursilhistaRepository.save(cursilhistaParaSerCriado);
+        var msg = "Inscrição realizada com sucesso";
+        return new ResponseModel(SUCCESS, msg);
     }
 
     @Override
-    public ResponseModel confirmarCursilhista(Long idCursilhista, CursilhistaConfirmedQueryString queryString){
+    public ResponseModel confirmarCursilhista(String idCursilhista, CursilhistaConfirmedQueryString queryString){
         Cursilhista cursilhista = findById(idCursilhista);
 
         if(cursilhista.isConfirmed()){
@@ -90,7 +76,7 @@ public class CursilhistaServiceImpl implements CursilhistaService {
     }
 
     @Override
-    public Cursilhista findById(Long id) {
+    public Cursilhista findById(String id) {
         Optional<Cursilhista> cursilhista = cursilhistaRepository.findById(id);
         return cursilhista.orElseThrow(() -> new CursilhistaNotFoundException());
     }
@@ -102,15 +88,37 @@ public class CursilhistaServiceImpl implements CursilhistaService {
     }
 
     @Override
-    public ResponseModel deletarCusrilhistaById(Long id) {
+    public ResponseModel deletarCusrilhistaById(String id) {
         findById(id);
         cursilhistaRepository.deleteById(id);
         var msg = "Inscrição apagada com sucesso";
         return new ResponseModel(SUCCESS,msg);
     }
 
+    private Cursilhista preencherCursilhista(CursilhistaRequest cursilhistaRequest) {
+        UUID uuid = UUID.randomUUID();
+        Cursilhista cursilhistaParaSerCriado = Cursilhista.builder()
+                .id(uuid.toString())
+                .fullName(cursilhistaRequest.getFullName())
+                .displayName(cursilhistaRequest.getDisplayName())
+                .cpf(cursilhistaRequest.getCpf())
+                .phoneNumber(cursilhistaRequest.getPhoneNumber())
+                .mobileNumber(cursilhistaRequest.getMobileNumber())
+                .emailAddress(cursilhistaRequest.getEmailAddress())
+                .birthDate(converterData(cursilhistaRequest.getBirthDate()))
+                .insertDate(LocalDateTime.now())
+                .conjugeName(cursilhistaRequest.getConjugeName())
+                .conjugePhoneNumber(cursilhistaRequest.getConjugePhoneNumber())
+                .emergencyName(cursilhistaRequest.getEmergencyName())
+                .emergencyPhoneNumber(cursilhistaRequest.getEmergencyPhoneNumber())
+                .foodRestriction(cursilhistaRequest.isFoodRestriction())
+                .foodRestrictionDescription(cursilhistaRequest.getFoodRestrictionDescription())
+                .transport(cursilhistaRequest.getTransport())
+                .igreja(cursilhistaRequest.getIgreja())
+                .build();
+        return cursilhistaParaSerCriado;
+    }
 
-    @Override
     public boolean verifyCpfExists(String cpf) {
         var listaInscritos = cursilhistaRepository.findAll();
 

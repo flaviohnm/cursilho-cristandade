@@ -3,6 +3,7 @@ package com.cursilhos.cadastro.resource;
 
 import com.cursilhos.cadastro.model.Cursilhista;
 import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
+import com.cursilhos.cadastro.model.request.CursilhistaRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.resource.dto.CursilhistaDto;
 import com.cursilhos.cadastro.service.CursilhistaService;
@@ -15,34 +16,34 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cursilho-da-cristandade/cursilhistas")
+@RequestMapping("/cursilho-da-cristandade/v1")
 @RequiredArgsConstructor
 public class CursilhistaResource {
     private final CursilhistaService cursilhistaService;
 
-    @PostMapping
-    public ResponseEntity<ResponseModel> cadastrarCursilhista(@Valid @RequestBody CursilhistaDto cursilhistaDto){
-        return new ResponseEntity<>(cursilhistaService.cadastrarCursilhista(cursilhistaDto), HttpStatus.CREATED);
-
+    @PostMapping("/cursilhista")
+    public ResponseEntity<ResponseModel> cadastrarCursilhista(@Valid @RequestBody CursilhistaRequest cursilhistaRequest){
+        return new ResponseEntity<>(cursilhistaService.cadastrarCursilhista(cursilhistaRequest), HttpStatus.CREATED);
     }
-    @PatchMapping("/confirmarCursilhista/{cursilhistaId}")
-    public ResponseModel confirmarCursilhista(@PathVariable("cursilhistaId") Long cursilhistaId,
+    @PatchMapping("/cursilhista/confirmarCursilhista/{cursilhistaId}")
+    public ResponseModel confirmarCursilhista(@PathVariable("cursilhistaId") String cursilhistaId,
                                               @RequestParam("formaPagamento") CursilhistaConfirmedQueryString queryString){
         return cursilhistaService.confirmarCursilhista(cursilhistaId, queryString);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Cursilhista> findById(@PathVariable("id") Long id){
+    @GetMapping("/cursilhista/{id}")
+    public ResponseEntity<Cursilhista> findByCursilhistaId(@PathVariable("id") String id){
         return new ResponseEntity<>(cursilhistaService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<Cursilhista> listarCursilhistas(){
-        return cursilhistaService.listarCursilhistas();
+    @GetMapping("/cursilhista")
+    public ResponseEntity<List<Cursilhista>> listarCursilhistas(){
+        return new ResponseEntity<>(cursilhistaService.listarCursilhistas(),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseModel> deletarCursilhistaById(@PathVariable("id") Long id){
+    @DeleteMapping("/cursilhista/{id}")
+    public ResponseEntity<ResponseModel> deletarCursilhistaById(@PathVariable("id") String id){
         return new ResponseEntity<>(cursilhistaService.deletarCusrilhistaById(id), HttpStatus.OK);
     }
+
 
 }

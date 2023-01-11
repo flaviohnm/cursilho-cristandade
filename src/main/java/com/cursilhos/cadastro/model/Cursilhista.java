@@ -25,8 +25,7 @@ import java.time.LocalDateTime;
 public class Cursilhista {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
     @CPF(message="CPF informado não é valido")
     @NotNull(message="CPF não pode ser nulo")
     private String cpf;
@@ -62,9 +61,6 @@ public class Cursilhista {
     private Igreja igreja;
     @Builder.Default
     private boolean confirmed = false;
-
-      @Override
-    public String toString(){
-        return "{id="+id+", cpf="+cpf+", fullName=" +fullName+", displayName=" +displayName+", phoneNumber="+phoneNumber+", mobileNumber="+mobileNumber+", emailAddress="+emailAddress+", birthDate="+birthDate+", insertDate="+insertDate+", confirmationDate="+confirmationDate+", conjugeName="+conjugeName+", conjugePhoneNumber="+conjugePhoneNumber+", emergencyName="+emergencyName+", emergencyPhoneNumber="+emergencyPhoneNumber+", foodRestriction="+foodRestriction+", foodRestrictionDescription="+foodRestrictionDescription+", formaPagamento="+formaPagamento+", transport="+transport+", igreja=" +igreja+", confirmed="+confirmed+"}";
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
 }

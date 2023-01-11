@@ -4,6 +4,6 @@ import com.cursilhos.cadastro.model.Cursilho;
 
 public interface CursilhoService {
 
-    Cursilho verCursilho (Long id);
+    Cursilho verCursilho (String id);
 
 }

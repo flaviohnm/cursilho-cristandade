@@ -16,10 +16,8 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cursilho {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
     private String cursilhoNumber;
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Cursilhista> cursilhistas;

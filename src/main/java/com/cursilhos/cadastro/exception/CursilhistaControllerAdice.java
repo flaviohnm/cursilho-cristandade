@@ -29,7 +29,15 @@ public class CursilhistaControllerAdice {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({ ConstraintViolationException.class })
+    @ResponseBody
+    @ExceptionHandler(EnderecoNotFoundException.class)
+    public ResponseEntity<MessageExceptionHandler> enderecoNotFoundException(EnderecoNotFoundException enderecoNotFoundException){
+        MessageExceptionHandler error = new MessageExceptionHandler(
+                new Date(), HttpStatus.NOT_FOUND.value(), "Endereco não Encontrado");
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<MessageExceptionHandler> handleConstraintViolation(ConstraintViolationException ex) {
         List<String> errors = new ArrayList<String>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
@@ -47,7 +55,7 @@ public class CursilhistaControllerAdice {
         BindingResult result = notValid.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
 
-        StringBuilder sb = new StringBuilder("Os campos seguintes não podem ser nulos: ");
+        StringBuilder sb = new StringBuilder("Os seguintes campos não podem ser nulos: ");
         for (FieldError fieldError : fieldErrors) {
             sb.append(" | ");
             sb.append(" -> ");
@@ -63,8 +71,8 @@ public class CursilhistaControllerAdice {
     @ResponseBody
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<MessageExceptionHandler> requestParametersFails(MissingServletRequestParameterException ex){
-        MessageExceptionHandler error = new MessageExceptionHandler(
-                new Date(), HttpStatus.BAD_REQUEST.value(), "A forma de pagamento não pode ser vazia");
+         MessageExceptionHandler error = new MessageExceptionHandler(
+                new Date(), HttpStatus.BAD_REQUEST.value(), "Query parameters não podem ser nulos");
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

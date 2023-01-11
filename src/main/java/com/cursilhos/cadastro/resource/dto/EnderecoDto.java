@@ -1,19 +1,16 @@
-package com.cursilhos.cadastro.model;
+package com.cursilhos.cadastro.resource.dto;
 
-import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-@Entity(name="endereco")
-@Getter
-@Setter
-public class Endereco {
-    @Id
+public class EnderecoDto {
+
     private String id;
     private String logradouro;
     private String numero;
@@ -23,4 +20,5 @@ public class Endereco {
     private String cidade;
     private String uf;
     private String cep;
+
 }
