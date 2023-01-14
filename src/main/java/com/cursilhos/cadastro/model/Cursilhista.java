@@ -9,8 +9,10 @@ import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -35,8 +37,13 @@ public class Cursilhista {
     @NotNull(message="displayName não pode ser nulo")
     @NotBlank(message="displayName não pode ser vazio")
     private String displayName;
+//    @Pattern(regexp = "(\\d{2})\\d{4}-\\d{4}", message = "phoneNumber não está no formato válido")
     private String phoneNumber;
+//    @Pattern(regexp = "(\\d{2})\\d{5}-\\d{4}", message = "mobileNumber não está no formato válido")
     private String mobileNumber;
+    @Email(message="Email com formato inválido")
+    @NotNull(message="emailAddress não pode ser nulo")
+    @NotBlank(message="emailAddress não pode ser vazio")
     private String emailAddress;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
@@ -45,10 +52,12 @@ public class Cursilhista {
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
     private LocalDateTime confirmationDate;
     private String conjugeName;
+//    @Pattern(regexp = "(\\d{2})\\d{5}-\\d{4}", message = "conjugePhoneNumber não está no formato válido")
     private String conjugePhoneNumber;
     @NotNull
     private String emergencyName;
     @NotNull
+//    @Pattern(regexp = "(\\d{2})\\d{5}-\\d{4}", message = "emergencyPhoneNumber não está no formato válido")
     private String emergencyPhoneNumber;
     @Builder.Default
     private boolean foodRestriction = false;

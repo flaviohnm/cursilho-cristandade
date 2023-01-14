@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cursilho-da-cristandade/v1/")
+@RequestMapping("/cursilho-da-cristandade/v1")
 @RequiredArgsConstructor
 public class EnderecoResource {
     private final EnderecoService enderecoService;

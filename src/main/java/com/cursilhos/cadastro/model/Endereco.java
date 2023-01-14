@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +23,6 @@ public class Endereco {
     private String bairro;
     private String cidade;
     private String uf;
+    @Pattern(regexp = "\\d{5}-\\d{3}", message="CEP não está no formato válido")
     private String cep;
 }
