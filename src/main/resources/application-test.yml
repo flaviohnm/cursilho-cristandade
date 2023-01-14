@@ -7,7 +7,7 @@ spring:
     password: ${DB_PASSWD}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    show-sql: false
+    show-sql: true
     defer-datasource-initialization: true
     hibernate.ddl-auto: update
     generate-ddl: true
