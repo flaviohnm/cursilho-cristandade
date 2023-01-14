@@ -9,10 +9,8 @@ import java.util.List;
 public interface EnderecoService {
 
     ResponseModel cadastrarEndereco(EnderecoRequest enderecoRequest);
-    Endereco findById(String id);
-
     List<Endereco>listarEnderecos();
-
+    Endereco findById(String id);
     ResponseModel deleteEnderecoById (String id);
 
 }

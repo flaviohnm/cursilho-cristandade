@@ -30,7 +30,7 @@ public class CursilhistaResource {
         return cursilhistaService.confirmarCursilhista(cursilhistaId, queryString);
     }
     @GetMapping("/cursilhista/{id}")
-    public ResponseEntity<Cursilhista> findByCursilhistaId(@PathVariable("id") String id){
+    public ResponseEntity<Cursilhista> findCursilhistaById(@PathVariable("id") String id){
         return new ResponseEntity<>(cursilhistaService.findById(id), HttpStatus.OK);
     }
 
