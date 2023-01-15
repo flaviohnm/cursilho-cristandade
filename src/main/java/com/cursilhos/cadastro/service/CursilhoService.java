@@ -1,9 +1,19 @@
 package com.cursilhos.cadastro.service;
 
 import com.cursilhos.cadastro.model.Cursilho;
+import com.cursilhos.cadastro.model.request.CursilhistaIncludedQueryString;
+import com.cursilhos.cadastro.model.request.CursilhoRequest;
+import com.cursilhos.cadastro.model.response.ResponseModel;
+
+import java.util.List;
 
 public interface CursilhoService {
 
-    Cursilho verCursilho (String id);
+    ResponseModel cadastrarCursilho(CursilhoRequest cursilhoRequest);
+    List<Cursilho> listarCursilhos();
+    Cursilho findById (String id);
+    ResponseModel deletarCursilho (String id);
+
+    ResponseModel incluirCursilhistaNoCursilho(String cursilhoId, CursilhistaIncludedQueryString queryString);
 
 }

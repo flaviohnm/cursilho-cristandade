@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -75,13 +76,13 @@ public class CursilhistaControllerAdice {
                 new Date(), HttpStatus.BAD_REQUEST.value(), "Query parameters não podem ser nulos");
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
-    @ResponseBody
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<MessageExceptionHandler> requestParametersFails(IllegalArgumentException ex){
-        MessageExceptionHandler error = new MessageExceptionHandler(
-                new Date(), HttpStatus.BAD_REQUEST.value(), "Para cadastrar o endereço é necessário informar o cusilhista");
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+//
+//    @ResponseBody
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ResponseEntity<MessageExceptionHandler> requestParametersFails(IllegalArgumentException ex){
+//        MessageExceptionHandler error = new MessageExceptionHandler(
+//                new Date(), HttpStatus.BAD_REQUEST.value(), "Erro : "+ ex.getMessage());
+//        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+//    }
 
 }

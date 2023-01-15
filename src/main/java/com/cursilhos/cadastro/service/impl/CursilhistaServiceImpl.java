@@ -1,9 +1,7 @@
 package com.cursilhos.cadastro.service.impl;
 
-import com.cursilhos.cadastro.enumeration.FormaPagamento;
 import com.cursilhos.cadastro.exception.CursilhistaNotFoundException;
 import com.cursilhos.cadastro.model.Cursilhista;
-import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
 import com.cursilhos.cadastro.model.request.CursilhistaRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.repository.CursilhistaRepository;
@@ -21,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.lang.Integer.parseInt;
+import static com.cursilhos.cadastro.enumeration.FormaPagamento.*;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +44,7 @@ public class CursilhistaServiceImpl implements CursilhistaService {
         return new ResponseModel(SUCCESS, msg);
     }
 
-    @Override
-    public ResponseModel confirmarCursilhista(String idCursilhista, CursilhistaConfirmedQueryString queryString){
+    public ResponseModel confirmarCursilhista(String idCursilhista, String formaPagamento){
         Cursilhista cursilhista = findById(idCursilhista);
 
         if(cursilhista.isConfirmed()){
@@ -57,14 +54,14 @@ public class CursilhistaServiceImpl implements CursilhistaService {
             return new ResponseModel(BAD_REQUEST,msg);
         }
 
-        if(parseInt(queryString.getFormaPagamento()) == 0){
-            cursilhista.setFormaPagamento(FormaPagamento.DINHEIRO);
-        } else if (parseInt(queryString.getFormaPagamento()) == 1) {
-            cursilhista.setFormaPagamento(FormaPagamento.PIX);
-        } else if (parseInt(queryString.getFormaPagamento()) == 2) {
-            cursilhista.setFormaPagamento(FormaPagamento.DEBITO);
+        if(formaPagamento.equals(0)){
+            cursilhista.setFormaPagamento(DINHEIRO);
+        } else if (formaPagamento.equals(1)){
+            cursilhista.setFormaPagamento(PIX);
+        } else if (formaPagamento.equals(2)){
+            cursilhista.setFormaPagamento(DEBITO);
         } else {
-            cursilhista.setFormaPagamento(FormaPagamento.CREDITO);
+            cursilhista.setFormaPagamento(CREDITO);
         }
         cursilhista.setConfirmed(true);
         cursilhista.setConfirmationDate(LocalDateTime.now());

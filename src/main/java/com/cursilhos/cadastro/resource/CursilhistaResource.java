@@ -24,13 +24,9 @@ public class CursilhistaResource {
     public ResponseEntity<ResponseModel> cadastrarCursilhista(@Valid @RequestBody CursilhistaRequest cursilhistaRequest){
         return new ResponseEntity<>(cursilhistaService.cadastrarCursilhista(cursilhistaRequest), HttpStatus.CREATED);
     }
-    @PatchMapping("/cursilhista/confirmarCursilhista/{cursilhistaId}")
-    public ResponseModel confirmarCursilhista(@PathVariable("cursilhistaId") String cursilhistaId,
-                                              @RequestParam("formaPagamento") CursilhistaConfirmedQueryString queryString){
-        return cursilhistaService.confirmarCursilhista(cursilhistaId, queryString);
-    }
+
     @GetMapping("/cursilhista/{id}")
-    public ResponseEntity<Cursilhista> findByCursilhistaId(@PathVariable("id") String id){
+    public ResponseEntity<Cursilhista> findCursilhistaById(@PathVariable("id") String id){
         return new ResponseEntity<>(cursilhistaService.findById(id), HttpStatus.OK);
     }
 
