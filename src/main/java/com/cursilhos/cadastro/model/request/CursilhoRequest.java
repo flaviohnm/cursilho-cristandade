@@ -15,8 +15,6 @@ public class CursilhoRequest {
     private String cursilhoNumber;
     private String cursilhoPeriod;
     private String cursilhoLocal;
-    private boolean cursilhoAberto;
-    private int quantidadeParticipantes;
     @Enumerated
     private Type cursilhoType;
 }
