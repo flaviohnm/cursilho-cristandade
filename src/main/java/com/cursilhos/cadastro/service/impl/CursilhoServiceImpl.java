@@ -1,5 +1,7 @@
 package com.cursilhos.cadastro.service.impl;
 
+import com.cursilhos.cadastro.exception.CursilhistaNotFoundException;
+import com.cursilhos.cadastro.exception.CursilhoNotFoundException;
 import com.cursilhos.cadastro.model.Cursilhista;
 import com.cursilhos.cadastro.model.Cursilho;
 import com.cursilhos.cadastro.model.request.CursilhistaIncludedQueryString;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,11 +41,8 @@ public class CursilhoServiceImpl implements CursilhoService {
 
     @Override
     public Cursilho findById(String id) {
-        return cursilhoRepository.findById(id).orElseThrow(
-                () -> {
-                    throw new RuntimeException ("Esse cursilho não foi cadastrado!");
-                }
-        );
+        Optional<Cursilho> cursilho = cursilhoRepository.findById(id);
+        return cursilho.orElseThrow(() -> new CursilhoNotFoundException());
     }
 
     @Override

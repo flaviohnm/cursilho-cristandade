@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +26,14 @@ public class CursilhistaControllerAdice {
     public ResponseEntity<MessageExceptionHandler> cursilhistaNotFoundException(CursilhistaNotFoundException cursilhistaNotFoundException){
         MessageExceptionHandler error = new MessageExceptionHandler(
                 new Date(), HttpStatus.NOT_FOUND.value(), "Cursilhista Não Encontrado");
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(CursilhoNotFoundException.class)
+    public ResponseEntity<MessageExceptionHandler> cursilhoNotFoundException(CursilhoNotFoundException cursilhoNotFoundException){
+        MessageExceptionHandler error = new MessageExceptionHandler(
+                new Date(), HttpStatus.NOT_FOUND.value(), "Cursilho Não Encontrado");
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
@@ -76,13 +83,13 @@ public class CursilhistaControllerAdice {
                 new Date(), HttpStatus.BAD_REQUEST.value(), "Query parameters não podem ser nulos");
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-//
-//    @ResponseBody
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity<MessageExceptionHandler> requestParametersFails(IllegalArgumentException ex){
-//        MessageExceptionHandler error = new MessageExceptionHandler(
-//                new Date(), HttpStatus.BAD_REQUEST.value(), "Erro : "+ ex.getMessage());
-//        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-//    }
+
+    @ResponseBody
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<MessageExceptionHandler> illegalArguments (IllegalArgumentException ex){
+        MessageExceptionHandler error = new MessageExceptionHandler(
+                new Date(), HttpStatus.BAD_REQUEST.value(), "O Segueuinte erro foi encontrado : "+ ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }
