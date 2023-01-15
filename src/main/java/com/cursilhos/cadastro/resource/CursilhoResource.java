@@ -1,7 +1,7 @@
 package com.cursilhos.cadastro.resource;
 
-import com.cursilhos.cadastro.model.Cursilhista;
 import com.cursilhos.cadastro.model.Cursilho;
+import com.cursilhos.cadastro.model.request.CursilhoRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.service.CursilhoService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,8 +19,12 @@ public class CursilhoResource {
 
     CursilhoService cursilhoService;
 
+    @PostMapping("/cursilho")
+    public ResponseEntity<ResponseModel> cadastrarCursilho(@Valid @RequestBody CursilhoRequest cursilhoRequest){
+        return new ResponseEntity<>(cursilhoService.cadastrarCursilho(cursilhoRequest), HttpStatus.CREATED);
+    }
 
-    @GetMapping("/cursilhos")
+    @GetMapping("/cursilho")
     public ResponseEntity<List<Cursilho>> listarCursilhos(){
         return new ResponseEntity<>(cursilhoService.listarCursilhos(),HttpStatus.OK);
     }

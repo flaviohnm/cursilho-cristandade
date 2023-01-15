@@ -19,12 +19,13 @@ public class Cursilho {
     @Id
     private String id;
     private String cursilhoNumber;
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<Cursilhista> cursilhistas;
     @Enumerated
     private Type cursilhoType;
     private String cursilhoPeriod;
     private String cursilhoLocal;
     @Builder.Default
     private boolean cursilhoAberto = true;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<Cursilhista> cursilhistas;
+    private int quantidadeParticipantes;
 }
