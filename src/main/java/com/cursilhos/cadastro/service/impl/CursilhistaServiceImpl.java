@@ -122,6 +122,8 @@ public class CursilhistaServiceImpl implements CursilhistaService {
                 .conjugePhoneNumber(cursilhistaRequest.getConjugePhoneNumber())
                 .emergencyName(cursilhistaRequest.getEmergencyName())
                 .emergencyPhoneNumber(cursilhistaRequest.getEmergencyPhoneNumber())
+                .indicationName(cursilhistaRequest.getIndicationName())
+                .indicationPhoneNumber(cursilhistaRequest.getIndicationPhoneNumber())
                 .foodRestriction(cursilhistaRequest.isFoodRestriction())
                 .foodRestrictionDescription(cursilhistaRequest.getFoodRestrictionDescription())
                 .transport(cursilhistaRequest.getTransport())
