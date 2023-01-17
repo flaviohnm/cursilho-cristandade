@@ -88,8 +88,17 @@ public class CursilhistaControllerAdice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<MessageExceptionHandler> illegalArguments (IllegalArgumentException ex){
         MessageExceptionHandler error = new MessageExceptionHandler(
-                new Date(), HttpStatus.BAD_REQUEST.value(), "O Segueuinte erro foi encontrado : "+ ex.getMessage());
+                new Date(), HttpStatus.BAD_REQUEST.value(), "O Seguinte erro foi encontrado : "+ ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ResponseBody
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<MessageExceptionHandler> nullPointerException (NullPointerException ex){
+        MessageExceptionHandler error = new MessageExceptionHandler(
+                new Date(), HttpStatus.BAD_REQUEST.value(), "Atributo com valor Nulo encontrado : "+ ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
