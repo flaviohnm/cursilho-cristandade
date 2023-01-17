@@ -1,25 +1,25 @@
 package com.cursilhos.cadastro.service.impl;
 
 import com.cursilhos.cadastro.exception.CursilhistaNotFoundException;
+import com.cursilhos.cadastro.general.ConverterDate;
 import com.cursilhos.cadastro.model.Cursilhista;
+import com.cursilhos.cadastro.model.Cursilho;
 import com.cursilhos.cadastro.model.request.CursilhistaRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.repository.CursilhistaRepository;
+import com.cursilhos.cadastro.repository.CursilhoRepository;
 import com.cursilhos.cadastro.service.CursilhistaService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-
-import static com.cursilhos.cadastro.enumeration.FormaPagamento.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +30,9 @@ public class CursilhistaServiceImpl implements CursilhistaService {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final CursilhistaRepository cursilhistaRepository;
+    private final CursilhoRepository cursilhoRepository;
+    private final CursilhoServiceImpl cursilhoService;
+
 
     @Override
     public ResponseModel cadastrarCursilhista(CursilhistaRequest cursilhistaRequest) {
@@ -40,11 +43,12 @@ public class CursilhistaServiceImpl implements CursilhistaService {
         }
         Cursilhista cursilhistaParaSerCriado = preencherCursilhista(cursilhistaRequest);
         cursilhistaRepository.save(cursilhistaParaSerCriado);
+        incluirCursilhistaNoCursilho(cursilhistaRequest.getCursilhiId(), cursilhistaParaSerCriado.getId());
         var msg = "Inscrição realizada com sucesso";
         return new ResponseModel(SUCCESS, msg);
     }
 
-    public ResponseModel confirmarCursilhista(String idCursilhista, String formaPagamento){
+    public ResponseModel confirmarCursilhista(String idCursilhista){
         Cursilhista cursilhista = findById(idCursilhista);
 
         if(cursilhista.isConfirmed()){
@@ -54,15 +58,6 @@ public class CursilhistaServiceImpl implements CursilhistaService {
             return new ResponseModel(BAD_REQUEST,msg);
         }
 
-        if(formaPagamento.equals(0)){
-            cursilhista.setFormaPagamento(DINHEIRO);
-        } else if (formaPagamento.equals(1)){
-            cursilhista.setFormaPagamento(PIX);
-        } else if (formaPagamento.equals(2)){
-            cursilhista.setFormaPagamento(DEBITO);
-        } else {
-            cursilhista.setFormaPagamento(CREDITO);
-        }
         cursilhista.setConfirmed(true);
         cursilhista.setConfirmationDate(LocalDateTime.now());
 
@@ -91,7 +86,27 @@ public class CursilhistaServiceImpl implements CursilhistaService {
         return new ResponseModel(SUCCESS,msg);
     }
 
+    public ResponseModel incluirCursilhistaNoCursilho(String cursilhoId, String cursilhistaId) {
+        Cursilho cursilhoParaAtualizar = cursilhoService.findById(cursilhoId);
+        if (!cursilhoParaAtualizar.isCursilhoAberto()) {
+            var msg = "Cursilho está fechado e não aceita mais inscrições!";
+            return new ResponseModel(BAD_REQUEST,msg);
+        }
+
+        Cursilhista cursilhistaParaConfirmar = findById(cursilhistaId);
+        confirmarCursilhista(cursilhistaParaConfirmar.getId());
+
+        List<Cursilhista> cursilhistasDoCursilho = cursilhoParaAtualizar.getCursilhistas();
+        cursilhistasDoCursilho.add(cursilhistaParaConfirmar);
+        cursilhoParaAtualizar.setCursilhistas(cursilhistasDoCursilho);
+        cursilhoParaAtualizar.setQuantidadeParticipantes(cursilhistasDoCursilho.size());;
+        cursilhoRepository.save(cursilhoParaAtualizar);
+        var msg = "Cursilhista incluido no cursilho com sucesso";
+        return new ResponseModel(SUCCESS,msg);
+    }
+
     private Cursilhista preencherCursilhista(CursilhistaRequest cursilhistaRequest) {
+        ConverterDate converterDate = new ConverterDate();
         UUID uuid = UUID.randomUUID();
         Cursilhista cursilhistaParaSerCriado = Cursilhista.builder()
                 .id(uuid.toString())
@@ -101,8 +116,10 @@ public class CursilhistaServiceImpl implements CursilhistaService {
                 .phoneNumber(cursilhistaRequest.getPhoneNumber())
                 .mobileNumber(cursilhistaRequest.getMobileNumber())
                 .emailAddress(cursilhistaRequest.getEmailAddress())
-                .birthDate(converterData(cursilhistaRequest.getBirthDate()))
+                .birthDate(converterDate.Data(cursilhistaRequest.getBirthDate()))
                 .insertDate(LocalDateTime.now())
+                .confirmationDate(LocalDateTime.now())
+                .confirmed(true)
                 .conjugeName(cursilhistaRequest.getConjugeName())
                 .conjugePhoneNumber(cursilhistaRequest.getConjugePhoneNumber())
                 .emergencyName(cursilhistaRequest.getEmergencyName())
@@ -111,6 +128,7 @@ public class CursilhistaServiceImpl implements CursilhistaService {
                 .foodRestrictionDescription(cursilhistaRequest.getFoodRestrictionDescription())
                 .transport(cursilhistaRequest.getTransport())
                 .igreja(cursilhistaRequest.getIgreja())
+                .estadoCivil(cursilhistaRequest.getEstadoCivil())
                 .build();
         return cursilhistaParaSerCriado;
     }
@@ -124,11 +142,6 @@ public class CursilhistaServiceImpl implements CursilhistaService {
                 .isEmpty()){
             return false;
         } return true;
-    }
-
-    public LocalDate converterData(String value){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return LocalDate.parse(value, formatter);
     }
 
 }

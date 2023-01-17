@@ -14,6 +14,8 @@ import javax.persistence.Enumerated;
 public class CursilhoRequest {
     private String cursilhoNumber;
     private String cursilhoPeriod;
+    private String cursilhoStartDate;
+    private String cursilhoEndDate;
     private String cursilhoLocal;
     @Enumerated
     private Type cursilhoType;

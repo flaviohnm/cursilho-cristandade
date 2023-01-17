@@ -1,7 +1,6 @@
 package com.cursilhos.cadastro.resource;
 
 import com.cursilhos.cadastro.model.Cursilho;
-import com.cursilhos.cadastro.model.request.CursilhistaIncludedQueryString;
 import com.cursilhos.cadastro.model.request.CursilhoRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.service.CursilhoService;
@@ -22,11 +21,6 @@ public class CursilhoResource {
     @PostMapping("/cursilho")
     public ResponseEntity<ResponseModel> cadastrarCursilho(@Valid @RequestBody CursilhoRequest cursilhoRequest){
         return new ResponseEntity<>(cursilhoService.cadastrarCursilho(cursilhoRequest), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/cursilho/{id}")
-    public ResponseEntity<ResponseModel> confirmarCursilhistaNoCursilho(@Valid @PathVariable("id") String id, CursilhistaIncludedQueryString queryString){
-        return new ResponseEntity<>(cursilhoService.incluirCursilhistaNoCursilho(id, queryString), HttpStatus.OK);
     }
 
     @GetMapping("/cursilho")
