@@ -35,7 +35,7 @@ public class CursilhistaServiceImpl implements CursilhistaService {
 
 
     @Override
-    public ResponseModel cadastrarCursilhista(CursilhistaRequest cursilhistaRequest) {
+    public ResponseModel cadastrarCursilhista(CursilhistaRequest cursilhistaRequest){
 
         if (verifyCpfExists(cursilhistaRequest.getCpf())){
             var msg = "CPF já está cadastrado";
@@ -43,7 +43,7 @@ public class CursilhistaServiceImpl implements CursilhistaService {
         }
         Cursilhista cursilhistaParaSerCriado = preencherCursilhista(cursilhistaRequest);
         cursilhistaRepository.save(cursilhistaParaSerCriado);
-        incluirCursilhistaNoCursilho(cursilhistaRequest.getCursilhiId(), cursilhistaParaSerCriado.getId());
+        incluirCursilhistaNoCursilho(cursilhistaRequest.getCursilhoId(), cursilhistaParaSerCriado.getId());
         var msg = "Inscrição realizada com sucesso";
         return new ResponseModel(SUCCESS, msg);
     }
@@ -92,12 +92,10 @@ public class CursilhistaServiceImpl implements CursilhistaService {
             var msg = "Cursilho está fechado e não aceita mais inscrições!";
             return new ResponseModel(BAD_REQUEST,msg);
         }
-
-        Cursilhista cursilhistaParaConfirmar = findById(cursilhistaId);
-        confirmarCursilhista(cursilhistaParaConfirmar.getId());
+        Cursilhista cursilhistaParaCursilho = findById(cursilhistaId);
 
         List<Cursilhista> cursilhistasDoCursilho = cursilhoParaAtualizar.getCursilhistas();
-        cursilhistasDoCursilho.add(cursilhistaParaConfirmar);
+        cursilhistasDoCursilho.add(cursilhistaParaCursilho);
         cursilhoParaAtualizar.setCursilhistas(cursilhistasDoCursilho);
         cursilhoParaAtualizar.setQuantidadeParticipantes(cursilhistasDoCursilho.size());;
         cursilhoRepository.save(cursilhoParaAtualizar);

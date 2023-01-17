@@ -17,7 +17,7 @@ import javax.persistence.Enumerated;
 @AllArgsConstructor
 public class CursilhistaRequest {
 
-    private String cursilhiId;
+    private String cursilhoId;
     private String fullName;
     private String displayName;
     private String cpf;
