@@ -1,5 +1,5 @@
 package com.cursilhos.cadastro.enumeration;
 
 public enum EstadoCivil {
-    SOLTEIRO, CASADO, DIVORCIADO, VIÚVO;
+    SOLTEIRO, CASADO, DIVORCIADO, VIUVO;
 }

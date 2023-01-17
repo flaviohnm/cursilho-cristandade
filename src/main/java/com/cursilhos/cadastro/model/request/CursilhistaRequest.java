@@ -1,7 +1,7 @@
 package com.cursilhos.cadastro.model.request;
 
 
-import com.cursilhos.cadastro.enumeration.FormaPagamento;
+import com.cursilhos.cadastro.enumeration.EstadoCivil;
 import com.cursilhos.cadastro.enumeration.Igreja;
 import com.cursilhos.cadastro.enumeration.Transport;
 import lombok.AllArgsConstructor;
@@ -17,6 +17,7 @@ import javax.persistence.Enumerated;
 @AllArgsConstructor
 public class CursilhistaRequest {
 
+    private String cursilhiId;
     private String fullName;
     private String displayName;
     private String cpf;
@@ -25,6 +26,7 @@ public class CursilhistaRequest {
     private String emailAddress;
     private String birthDate;
     private String insertDate;
+    private boolean confirmed;
     private String confirmationDate;
     private String conjugeName;
     private String conjugePhoneNumber;
@@ -32,11 +34,12 @@ public class CursilhistaRequest {
     private String emergencyPhoneNumber;
     private boolean foodRestriction;
     private String foodRestrictionDescription;
-    @Enumerated
-    private FormaPagamento formaPagamento;
+    private String indicationName;
+    private String indicationPhoneNumber;
     @Enumerated
     private Transport transport;
     @Enumerated
     private Igreja igreja;
-    private boolean confirmed;
+    @Enumerated
+    private EstadoCivil estadoCivil;
 }

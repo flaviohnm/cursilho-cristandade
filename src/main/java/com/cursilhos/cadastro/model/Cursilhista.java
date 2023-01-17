@@ -1,6 +1,6 @@
 package com.cursilhos.cadastro.model;
 
-import com.cursilhos.cadastro.enumeration.FormaPagamento;
+import com.cursilhos.cadastro.enumeration.EstadoCivil;
 import com.cursilhos.cadastro.enumeration.Igreja;
 import com.cursilhos.cadastro.enumeration.Transport;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -41,6 +40,8 @@ public class Cursilhista {
     private String phoneNumber;
 //    @Pattern(regexp = "(\\d{2})\\d{5}-\\d{4}", message = "mobileNumber não está no formato válido")
     private String mobileNumber;
+    @Enumerated
+    private EstadoCivil estadoCivil;
     @Email(message="Email com formato inválido")
     @NotNull(message="emailAddress não pode ser nulo")
     @NotBlank(message="emailAddress não pode ser vazio")
@@ -62,8 +63,8 @@ public class Cursilhista {
     @Builder.Default
     private boolean foodRestriction = false;
     private String foodRestrictionDescription;
-    @Enumerated
-    private FormaPagamento formaPagamento;
+    private String indicationName;
+    private String indicationPhoneNumber;
     @Enumerated
     private Transport transport;
     @Enumerated

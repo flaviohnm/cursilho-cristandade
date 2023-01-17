@@ -1,10 +1,12 @@
 package com.cursilhos.cadastro.model;
 
 import com.cursilhos.cadastro.enumeration.Type;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,7 +23,10 @@ public class Cursilho {
     private String cursilhoNumber;
     @Enumerated
     private Type cursilhoType;
-    private String cursilhoPeriod;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate cursilhoStartDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate cursilhoEndDate;
     private String cursilhoLocal;
     @Builder.Default
     private boolean cursilhoAberto = true;

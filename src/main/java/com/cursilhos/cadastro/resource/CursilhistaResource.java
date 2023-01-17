@@ -2,7 +2,6 @@ package com.cursilhos.cadastro.resource;
 
 
 import com.cursilhos.cadastro.model.Cursilhista;
-import com.cursilhos.cadastro.model.request.CursilhistaConfirmedQueryString;
 import com.cursilhos.cadastro.model.request.CursilhistaRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 import com.cursilhos.cadastro.service.CursilhistaService;

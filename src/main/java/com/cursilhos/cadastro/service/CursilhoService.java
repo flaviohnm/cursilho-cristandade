@@ -1,7 +1,6 @@
 package com.cursilhos.cadastro.service;
 
 import com.cursilhos.cadastro.model.Cursilho;
-import com.cursilhos.cadastro.model.request.CursilhistaIncludedQueryString;
 import com.cursilhos.cadastro.model.request.CursilhoRequest;
 import com.cursilhos.cadastro.model.response.ResponseModel;
 
@@ -13,7 +12,5 @@ public interface CursilhoService {
     List<Cursilho> listarCursilhos();
     Cursilho findById (String id);
     ResponseModel deletarCursilho (String id);
-
-    ResponseModel incluirCursilhistaNoCursilho(String cursilhoId, CursilhistaIncludedQueryString queryString);
 
 }
