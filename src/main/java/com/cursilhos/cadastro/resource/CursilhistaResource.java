@@ -29,6 +29,11 @@ public class CursilhistaResource {
         return new ResponseEntity<>(cursilhistaService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/cursilhista/bydate/")
+    public ResponseEntity<List<Cursilhista>> listarCursilhistasByDate(@RequestParam(value="datetime") String datetime){
+        return new ResponseEntity<>(cursilhistaService.listarCursilhistasByDate(datetime),HttpStatus.OK);
+    }
+
     @GetMapping("/cursilhista")
     public ResponseEntity<List<Cursilhista>> listarCursilhistas(){
         return new ResponseEntity<>(cursilhistaService.listarCursilhistas(),HttpStatus.OK);

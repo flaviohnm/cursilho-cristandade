@@ -22,7 +22,7 @@ public class ConverterDate {
     }
 
     public LocalDateTime DataTime(String value){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         return LocalDateTime.parse(value, formatter);
     }
 }

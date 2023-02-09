@@ -13,6 +13,8 @@ public interface CursilhistaService {
 
     List<Cursilhista> listarCursilhistas();
 
+    List<Cursilhista> listarCursilhistasByDate(String datetime);
+
     ResponseModel deletarCusrilhistaById (String id);
 
 }
