@@ -48,9 +48,9 @@ public class Cursilhista {
     private String emailAddress;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime insertDate;
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime confirmationDate;
     private String conjugeName;
 //    @Pattern(regexp = "(\\d{2})\\d{5}-\\d{4}", message = "conjugePhoneNumber não está no formato válido")

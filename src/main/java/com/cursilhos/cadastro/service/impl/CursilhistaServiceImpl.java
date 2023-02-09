@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,6 @@ public class CursilhistaServiceImpl implements CursilhistaService {
     private final CursilhistaRepository cursilhistaRepository;
     private final CursilhoRepository cursilhoRepository;
     private final CursilhoServiceImpl cursilhoService;
-
 
     @Override
     public ResponseModel cadastrarCursilhista(CursilhistaRequest cursilhistaRequest){
@@ -79,6 +79,17 @@ public class CursilhistaServiceImpl implements CursilhistaService {
     }
 
     @Override
+    public List<Cursilhista> listarCursilhistasByDate(String datetime) {
+        ConverterDate converterDate = new ConverterDate();
+        List<Cursilhista> listaCursilhistas = listarCursilhistas();
+        System.out.println(listaCursilhistas);
+        return listaCursilhistas.stream()
+                .filter( c -> c.getInsertDate()
+                        .isAfter(converterDate.Data(datetime).atStartOfDay()))
+                .collect(Collectors.toList());
+        }
+
+    @Override
     public ResponseModel deletarCusrilhistaById(String id) {
         findById(id);
         cursilhistaRepository.deleteById(id);
@@ -117,7 +128,6 @@ public class CursilhistaServiceImpl implements CursilhistaService {
                 .birthDate(converterDate.Data(cursilhistaRequest.getBirthDate()))
                 .insertDate(LocalDateTime.now())
                 .confirmationDate(LocalDateTime.now())
-                .confirmed(true)
                 .conjugeName(cursilhistaRequest.getConjugeName())
                 .conjugePhoneNumber(cursilhistaRequest.getConjugePhoneNumber())
                 .emergencyName(cursilhistaRequest.getEmergencyName())
